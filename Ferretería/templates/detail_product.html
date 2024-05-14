@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalle del Producto </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/pagina.css'%}">
+</head>
+<body>
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img src="{% static "imagenes/ferremax.jpg" %}" alt="" height="70px" width="70px">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user.is_authenticated %}
+                    {{user.username}}
+                  {% else %}
+                    Cuenta 
+                  {% endif %}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% if user.is_authenticated %}
+                  <li>
+                    <form action="{% url 'logout' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="logout-button">Cerrar Sesión</button>
+                    </form>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Inicio de Sesión</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Crear Cuenta</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Empleados
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url 'bodeguero' %}">Vista Bodeguero</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Vista Vendedor</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Vista Contador</a></li>
+                </ul>
+              </li>
+              {% endif %}
+            </ul>
+            <form class="d-flex" action="{% url 'search_results' %}" method="get">
+              <input class="form-control me-2" type="search" placeholder="Escribe" aria-label="Search" name="query">
+              <button class="btn btn-outline-success" type="submit">Buscar</button>
+          </form>
+          </div>
+        </div>
+      </nav>
+
+    <hr>
+    <br>
+    <div class="container">
+        <div class="row"><div class="col-md-6">
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_producto }}" class="img-fluid">
+        </div>
+                <div class="col-md-6">
+                    <h1>{{ producto.nombre_producto }}</h1>
+                    <p>{{ producto.descripcion }}</p>
+                    <p class="fw-bold">Precio: {{ producto.precio }} CLP</p>
+                    <select id="currency-selector">
+                        <option value="AED">Dirham de los Emiratos Árabes Unidos (AED)</option>
+                        <option value="ARS">Peso argentino (ARS)</option>
+                        <option value="AUD">Dólar australiano (AUD)</option>
+                        <option value="BGN">Lev búlgaro (BGN)</option>
+                        <option value="BRL">Real brasileño (BRL)</option>
+                        <option value="BSD">Dólar bahameño (BSD)</option>
+                        <option value="CAD">Dólar canadiense (CAD)</option>
+                        <option value="CHF">Franco suizo (CHF)</option>
+                        <option value="CLP">Peso chileno (CLP)</option>
+                        <option value="CNY">Yuan chino (CNY)</option>
+                        <option value="COP">Peso colombiano (COP)</option>
+                        <option value="CZK">Corona checa (CZK)</option>
+                        <option value="DKK">Corona danesa (DKK)</option>
+                        <option value="DOP">Peso dominicano (DOP)</option>
+                        <option value="EGP">Libra egipcia (EGP)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="FJD">Dólar fiyiano (FJD)</option>
+                        <option value="GBP">Libra esterlina (GBP)</option>
+                        <option value="GTQ">Quetzal guatemalteco (GTQ)</option>
+                        <option value="HKD">Dólar de Hong Kong (HKD)</option>
+                        <option value="HRK">Kuna croata (HRK)</option>
+                        <option value="HUF">Forinto húngaro (HUF)</option>
+                        <option value="IDR">Rupia indonesia (IDR)</option>
+                        <option value="ILS">Nuevo shequel israelí (ILS)</option>
+                        <option value="INR">Rupia india (INR)</option>
+                        <option value="ISK">Corona islandesa (ISK)</option>
+                        <option value="JPY">Yen japonés (JPY)</option>
+                        <option value="KRW">Won surcoreano (KRW)</option>
+                        <option value="KZT">Tenge kazajo (KZT)</option>
+                        <option value="MXN">Peso mexicano (MXN)</option>
+                        <option value="MYR">Ringgit malayo (MYR)</option>
+                        <option value="NOK">Corona noruega (NOK)</option>
+                        <option value="NZD">Dólar neozelandés (NZD)</option>
+                        <option value="PAB">Balboa panameño (PAB)</option>
+                        <option value="PEN">Sol peruano (PEN)</option>
+                        <option value="PHP">Peso filipino (PHP)</option>
+                        <option value="PKR">Rupia paquistaní (PKR)</option>
+                        <option value="PLN">Złoty polaco (PLN)</option>
+                        <option value="PYG">Guaraní paraguayo (PYG)</option>
+                        <option value="RON">Leu rumano (RON)</option>
+                        <option value="RUB">Rublo ruso (RUB)</option>
+                        <option value="SAR">Riyal saudí (SAR)</option>
+                        <option value="SEK">Corona sueca (SEK)</option>
+                        <option value="SGD">Dólar de Singapur (SGD)</option>
+                        <option value="THB">Baht tailandés (THB)</option>
+                        <option value="TRY">Lira turca (TRY)</option>
+                        <option value="TWD">Nuevo dólar taiwanés (TWD)</option>
+                        <option value="UAH">Grivna ucraniana (UAH)</option>
+                        <option value="USD" selected>Dólar estadounidense (USD)</option>
+                        <option value="UYU">Peso uruguayo (UYU)</option>
+                        <option value="VND">Dong vietnamita (VND)</option>
+                        <option value="ZAR">Rand sudafricano (ZAR)</option>
+                        <!-- Opciones de moneda -->
+                    </select>
+                    <br>
+                    <hr>
+                    <button onclick="convertCurrency()" class="btn btn-info">Convertir Moneda</button>
+                    <hr>
+                    <div id="conversion-result"class="alert alert-info mt-2" style="width: 400px; height: 60px;"></div>
+                    <hr>
+                    <div class="mercadopago-button" style="width: 150px; height: 40px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mercado Pago -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script>
+        function convertCurrency() {
+            var selector = document.getElementById('currency-selector');
+            var monedaDestino = selector.value;
+            var precio = {{ producto.precio|safe }};
+            // Inicia una solicitud AJAX para obtener la tasa de conversión
+            fetch(`/api/conversion/?moneda=${monedaDestino}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.error) {
+                        console.error('Error:', data.error);
+                        alert('Error al convertir la moneda.');
+                    } else {
+                        var precioConvertido = precio * data.tasa_conversion;
+                        document.getElementById('conversion-result').innerText = `Precio convertido: ${precioConvertido.toFixed(2)} ${monedaDestino}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la petición AJAX:', error);
+                    alert('Error al procesar la petición.');
+                });
+        }
+    </script>
+
+    <script>
+        const mp = new MercadoPago('TEST-934611eb-fcb9-4bd2-91f2-5de74c321b6d', {
+            locale: 'es-CL'  // Asegúrate de ajustar esto según tu región
+        });
+        
+        // Configuración adicional y creación del checkout
+        mp.checkout({
+            preference: {
+                id: '{{ preference_id }}'
+            },
+            render: {
+                container: '.mercadopago-button', // Indica el contenedor del botón de pago
+                label: 'Pagar',  // Texto del botón de pago (opcional)
+            }
+        });
+        
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

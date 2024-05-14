@@ -1,0 +1,22 @@
+/* pagina.css */
+body {
+    padding-top: 20px;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Estilos adicionales para espaciar y decorar */
+.container {
+    margin-top: 20px;
+}
+
+h1 {
+    color: #0056b3; /* Color temático, ajustable a tus preferencias */
+}
+
+.fw-bold {
+    font-weight: bold;
+}

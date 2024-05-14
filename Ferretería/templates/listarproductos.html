@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos - Bodeguero</title>
+    <link rel="stylesheet" href="{% static 'css/api.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bodeguero.css'%}">
+</head>
+<body>
+    
+
+    <br>
+    <div class="container">
+       <div class="container">
+        <div class="container">
+            <h1>Lista de Productos - Inventario</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Hora</th>
+                        <!-- Agrega más columnas según tus necesidades -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.nombre_producto }}</td>
+                        <td>{{ producto.categoria }}</td>
+                        <td>{{ producto.precio }}</td>
+                        <td>{{ producto.stock }}</td>                 
+                        <td>{{ producto.fecha_actualizacion_precio}}</td>
+                        <!-- Agrega más columnas según tus necesidades -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>    
+        </div>
+       </div>
+    </div>
+    <script>
+        document.querySelectorAll('.eliminar-stock').forEach(button => {
+            button.addEventListener('click', function() {
+                const productoId = this.getAttribute('data-producto-id');
+                fetch(`/eliminar-stock/${productoId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload(); 
+                    } else {
+                        console.error('Error al eliminar stock');
+                    }
+                })
+                .catch(error => console.error('Error al eliminar stock:', error));
+            });
+        });
+    </script>    
+</body>
+</html>
